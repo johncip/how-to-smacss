@@ -16,8 +16,57 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+			  <section data-markdown>
+          <textarea data-template>
+            # SMACSS
+            Scalable and Modular Architecture for CSS
+          </textarea>
+        </section>
+			  <section data-markdown>
+          <textarea data-template>
+            ## SMACSS
+            ...is a styleguide for CSS. It lets you write CSS where:
+            * the process is consistent
+            * you always target things the same way
+            * you never have issues with precedence or overriding
+            * styles are reusable
+            * styles are modular (i.e. you can add and remove bits without breakage)
+            * styles are organized the same way as the page
+          </textarea>
+        </section>
+			  <section data-markdown>
+          <textarea data-template>
+            # How is this done?
+          </textarea>
+        </section>
+			  <section data-markdown>
+          <textarea data-template>
+            ## How is this done?
+            Style rules are broken up by type:
+            1. **Base**
+            2. **Layout**
+            3. **Modules**
+            4. State
+            5. Theme
+
+            &gt; We won't use themes, or have much state.
+          </textarea>
+        </section>
+			  <section data-markdown>
+          <textarea data-template>
+            ## Base Styles
+          </textarea>
+        </section>
+			  <section data-markdown>
+          <textarea data-template>
+            ## Base Styles
+            * Base styles apply to *TAGS*.
+            * They are the only time we style tags directly.
+            * They are very basic, like a CSS reset, but even more minimal.
+            * For example, things like: `body { margin: 0; }`
+            * If you ever need to override a property in a base style, it shouldn't be in there.
+          </textarea>
+        </section>
 			</div>
 		</div>
 
