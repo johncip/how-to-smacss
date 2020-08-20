@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>How to SMACSS</title>
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
@@ -35,94 +35,105 @@
 			<div class="slides">
 			  <section data-markdown>
           <textarea data-template>
-            # How To SMACSS
+            # How to SMACSS
+            \*Scalable and Modular Architecture for CSS
 
             <img src="https://i.ytimg.com/vi/6co781JgoqQ/maxresdefault.jpg" height="400">
 
-            (Scalable and Modular Architecture for CSS)
-
-            [johncip.github.io/smacss-slides](https://johncip.github.io/smacss-slides)
+            <small>[johncip.github.io/how-to-smacss](https://johncip.github.io/how-to-smacss)</small>
           </textarea>
         </section>
 			  <section data-markdown>
           <textarea data-template>
-            # Introduction
+            from r/webdev: [Is it bad to hate CSS?](https://www.reddit.com/r/webdev/comments/78kvit/is_it_bad_to_hate_css/)
+
+            &gt; People who hate CSS don't understand how it works, or don't have discipline and/or lack a methodology to help maintain it [at] scale...
           </textarea>
         </section>
 			  <section data-markdown>
           <textarea data-template>
             ### SMACSS is a styleguide for CSS.
+            Some benefits:
             * everything is targeted the same way
             * avoids issues with specificity
-            * can change HTML elements without breaking CSS
+            * change HTML structure without breaking CSS
             * style rules are reusable
             * style rules are <span class="accent">modular</span>
           </textarea>
         </section>
 			  <section data-markdown>
           <textarea data-template>
-            ### What is modularity?
+            <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/image-gallery-1-00008-1582552458.png" height="350">
 
-            &gt; Modular design… subdivides a system into smaller parts called modules… which can be <span class="accent">independently created, modified, replaced or exchanged</span>…
+            The Voxel, a modular sofa
 
-            <img src="https://www.98fm.com/content/000/images/000278/285781_54_news_hub_231529_656x500.jpg" height="250">
+            <small>
+
+              * relatively few kinds of <span class="accent">self-similar parts</span>
+              * they can be <span class="accent">reused in different contexts</span>
+              * they (presumably) <span class="accent">all get fastened together in the same way</span>
+              * can be <span class="accent">made independently</span> of one another
+              * can be <span class="accent">added and removed without breakage</span>
+
+            </small>
+
           </textarea>
         </section>
 			  <section data-markdown>
           <textarea data-template>
-            ### What is modularity?
-            <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/image-gallery-1-00008-1582552458.png?resize=768:*">
+            ## History
+            <img src="https://farm9.staticflickr.com/8720/buddyicons/53573449@N00_r.jpg?1469355489#53573449@N00" height="200">
 
-            (a modular sofa)
-          </textarea>
-        </section>
+            Jonathan Snook developed SMACSS while at **Yahoo!** and later used it to clean up the CSS at **Shopify**.
 
-			  <section data-markdown>
-          <textarea data-template>
-            ## Introduction
-            ![snook](https://farm9.staticflickr.com/8720/buddyicons/53573449@N00_r.jpg?1469355489#53573449@N00)
-
-            Jonathan Snook developed SMACSS while at **Yahoo** and later used it to clean up the CSS at **Shopify**.
-
-            BEM and OOCSS are popular alternatives.
+            BEM and OOCSS are popular alternatives. They're not too different.
           </textarea>
         </section>
 			  <section data-markdown>
           <textarea data-template>
-            # How is it done?
+            # How do we do it?
           </textarea>
         </section>
 			  <section data-markdown>
           <textarea data-template>
-            ## How is it done?
-            Style rules are broken up by type:
+            ## How do we do it?
+            First, style rules are broken up by type:
             1. Base
             2. Layout
             3. Modules
-            4. ~~State~~
-            5. ~~Theme~~
+            4. State
+            5. Theme
 
-            They get their own files.
+            <small>Base &amp; layout rules each get their own file.
+              Modules will have a file each.</small>
+
+            &gt; We'll focus on the first three.
           </textarea>
         </section>
 			  <section data-markdown>
           <textarea data-template>
             # Base Rules
+
+            ```css
+              body {
+                margin: 0
+              }
+            ```
           </textarea>
         </section>
 			  <section data-markdown>
           <textarea data-template>
             ## Base rules
 
-            * Base rules are only applied to <span class="accent">tags</span>.
+            * Base rules are only applied to <span class="accent">tags</span>. <small>Also pseudo-elements and the universal selector (*).</small>
 
-              * They are <span class="accent">basic defaults</span> for those tags.
+              * They're the <span class="accent">minimal defaults</span> for those tags.
 
               * They're the only time we style tags directly.
 
-            * Every instance of the tag will get that style.
+            * Almost every instance of the tag should need those properties.
 
-              * *Some overriding is ok, but if you override something often, it probably shouldn't be in base.*
+              * *If you override something often, it probably shouldn't be a base rule.*
           </textarea>
         </section>
 			  <section data-markdown>
@@ -130,7 +141,7 @@
             These are good base rules:
 
             ```css
-            /* "reset" rules go under base */
+            /* a very minimal "css reset" */
 
             * {
               margin: 0;
@@ -180,12 +191,50 @@
         </section>
 			  <section data-markdown>
           <textarea data-template>
-            * Questions about base rules?
+            ## How about these?
+
+            <small>
+
+              ```css
+                body { font-family: lato; }
+              ```
+              Good, assuming most of the site uses Lato.
+
+              ```css
+                .cool-section {
+                  padding: 0;
+                }
+              ```
+              Bad. It's not a tag.
+
+              ```css
+                button {
+                  background-color: seagreen;
+                  border-radius: 4px;
+                }
+              ```
+              Bad. To be accessible, anything clickable (that doesn't navigate) should be a button.<br>Plan on having multiple button styles.
+
+              ```css
+                section &gt; h1 {
+                  font-size: 36px;
+                }
+              ```
+              Bad. It's not a tag / not universal.
+
+            </small>
           </textarea>
         </section>
 			  <section data-markdown>
           <textarea data-template>
             # Layout Rules
+
+            ```css
+              .l-footer {
+                position: fixed;
+                width: 100%;
+              }
+            ```
           </textarea>
         </section>
 			  <section data-markdown>
@@ -197,9 +246,9 @@
               * header
               * footer
               * whole-page columns
-            * <span class="accent">Layout is independent of the contents.</span>
+            * <span class="accent">Layout rules are independent from the contents.</span>
 
-            Let's use an `.l-` prefix: `.l-main`, `.l-footer`.
+            Let's use an `.l-` prefix: `.l-header`, `.l-main`.
           </textarea>
         </section>
 			  <section data-markdown>
@@ -211,7 +260,8 @@
               &lt;nav class="l-nav"&gt;&lt;/nav&gt;
               &lt;main class="l-main"&gt;
                 &lt;section class="l-secondary"&gt;&lt;/section&gt;
-                ...
+                &lt;section class="l-featured"&gt;&lt;/section&gt;
+                &lt;section class="l-tertiary"&gt;&lt;/section&gt;
               &lt;/main&gt;
               &lt;footer class="l-footer"&gt;&lt;/footer&gt;
             ```
@@ -219,9 +269,7 @@
         </section>
 			  <section data-markdown>
           <textarea data-template>
-            What are our major page sections?
-
-            Any layout rule questions?
+            Try to identify some major page sections.
           </textarea>
         </section>
 			  <section data-markdown>
@@ -229,32 +277,43 @@
             # Module Rules
 
             (where it gets interesting)
+
+            ```css
+              .pullQuote {
+                color: red;
+                font-size: 24px;
+              }
+            ```
           </textarea>
         </section>
 			  <section data-markdown>
           <textarea data-template>
             ## Module Rules
 
-            * most of the CSS will be in modules
+            * most of the CSS rules will end up in modules
             * modules are "discrete components"
             * examples:
               * a form
               * a carousel
-              * a photo with caption
+              * a photo + caption
 
             Let's use <span class="accent">classes</span> with <span class="accent">camelCase</span> names (no _).
           </textarea>
         </section>
 			  <section data-markdown>
           <textarea data-template>
-            ## Module Rules
+            ## Identifying a module
 
-            * identifying a module takes some experience
-            * the goal is to identify <span class="accent">reusable patterns</span>
-              * (even if they aren't actually going to be reused)
-            * for instance, our box styles are reused
+            * the goal is to extract <span class="accent">reusable UI patterns</span>
+
+              * (even when they aren't literally reused)
+
+            * for instance, if box styles are reused
+
               * `.box` is reusable
-              * `.aboutUsBox` is not reusable
+
+              * `.aboutUsBox` is not
+
           </textarea>
         </section>
 			  <section data-markdown>
@@ -262,19 +321,40 @@
             Is a `teamPhotoList` reusable?
 
             What about a `cardList` or `gridList`?
-          </textarea>
-        </section>
-			  <section data-markdown>
-          <textarea data-template>
+
             What are some other possible modules?
           </textarea>
         </section>
 			  <section data-markdown>
           <textarea data-template>
-            ## Module Rules
-            ### Subcomponents
-            * modules can have <span class="accent">subcomponents</span> which <span class="accent">belong to the module</span>
-            * no "subcomponents of subcomponents"
+            ## Modules: Variants
+            * <span class="accent">Variants</span> are <span class="accent">slightly different versions</span> of a module.
+            * Style using multiple classes:
+
+            ```css
+               .box {
+                 background-color: lightgray;
+                 box-shadow: 6px 6px 0px black;
+               }
+
+               .box-red { box-shadow: 6px 6px 0px red; }
+               .box-blue { box-shadow: 6px 6px 0px blue; }
+            ```
+
+            ```html
+              &lt;div class="box box-red"&gt;...&lt;/div&gt;
+              &lt;div class="box box-blue"&gt;...&lt;/div&gt;
+            ```
+
+            Let's use <span class="accent">one hyphen</span> (e.g. `.navItem-current`).
+          </textarea>
+        </section>
+			  <section data-markdown>
+          <textarea data-template>
+            ## Modules: Subcomponents
+            * modules can have <span class="accent">subcomponents</span>
+            * they <span class="accent">belong to the module</span> and never get used outside of it
+            * there are no sub-sub-components
 
             ```css
                .teamMember        { ... }
@@ -294,50 +374,27 @@
         </section>
 			  <section data-markdown>
           <textarea data-template>
-            ## Module Rules
-            ### Variants
-            * <span class="accent">variants</span> are <span class="accent">slightly different versions</span> of a module.
-            * HTML elements will get 2+ classes
 
-            ```css
-               .box {
-                 background-color: lightgray;
-                 box-shadow: 6px 6px 0px black;
-               }
+            ## Terminology Note
 
-               .box-red {
-                 box-shadow: 6px 6px 0px red;
-               }
-            ```
+            I've intentionally avoided the term *submodule.*
 
-            ```html
-              &lt;div class="box box-red"&gt;...&lt;/div&gt;
-            ```
+            Officially, submodules are variants. But some people use it to mean subcomponent.
 
-            Let's use <span class="accent">one hyphen</span> (e.g. `.navItem-current`).
+            (You might also see variants called *subclasses*, *variations*, and *modifiers*.)
           </textarea>
         </section>
 			  <section data-markdown>
           <textarea data-template>
+            ## Modules: Nesting
 
-            ## Quick note
-
-            I've intentionally avoided using the word "submodule."
-
-            Snook uses it to mean variant. You will see others using it for subcomponent. At Gradescope we just avoided the term.
-          </textarea>
-        </section>
-			  <section data-markdown>
-          <textarea data-template>
-            ## Module Rules
-            ### Nesting
-
-            * modules can be <span class="accent">nested under other modules</span>
-            * in fact, some modules will just be containers
+            * modules are often <span class="accent">nested under other modules</span>.
+            * (reusable containers, grids, etc. are good modules.)
 
             ```css
               .pageIntro {
-                padding: 0 40px;
+                padding-left: 40px;
+                padding-right: 40px;
               }
 
               .box {
@@ -355,50 +412,48 @@
         </section>
 			  <section data-markdown>
           <textarea data-template>
-            ## Module Rules
-            ### Margins
-            * modules <span class="accent">cannot set their own margins</span>
-              * because margins are generally not reusable
-            * no exceptions!!!
-            * set the margin from a containing module
+            ## Modules: Margins
+            * modules <span class="accent">DO NOT SET THEIR OWN MARGINS</span>
+            * no exceptions!
+            * more generally, modules don't lay themselves out, because it introduces coupling
+            * when padding doesn't suffice, set margins using the outer module as context:
 
             ```css
              .gridList { ... }
              .teamMember { ... }
 
              .gridList .teamMember {
-               margin-left: 20px;
-               margin-right: 20px;
+               margin-left: 20px; margin-right: 20px;
              }
             ```
           </textarea>
         </section>
 			  <section data-markdown>
           <textarea data-template>
-            ## Module Rules
-            ### Other Notes
+            ## Modules: PROTIPs
 
-            * <span class="accent">Don't target tag + class.</span> Just use the class.
-              * e.g. `.coolModule {}`, not `div.coolModule {}`
+            * `.coolModule {}`, not `div.coolModule {}`.
+              <br><small>The element adds specificity and DOM coupling for no reason.</small>
 
-            * Everything is a module (except base &amp; layout).
-              * e.g. `.module--subHeading`, not `.module &gt; h2`
+            * `.moduleC {}`, not `.moduleA .moduleB .moduleC {}`
+              <br><small>Ditto. But sometimes `.moduleB .moduleC {}` is needed for layout.</small>
 
-            * Avoid e.g. `.moduleA .moduleB .moduleC {}`
+            * `.module--subHeading`, not `.module &gt; h2` (usually)
+            <br><small>The "subcomponent version" is more semantic. But there's a tradeoff in HTML length.</small>
+
+            * `.mod-var--sub` and `.mod--sub-var` are sometimes useful.
           </textarea>
         </section>
 
 			  <section data-markdown>
           <textarea data-template>
-            ## Module Rules
-            ### Summary
+            ## Summary of Modules
 
-            * modules are <span class="accent">camelCase classes</span>
-            * variations add a suffix with <span class="accent">one hyphen</span>
-            * subcomponents add a suffix with <span class="accent">two hyphens</span>
-            * set <span class="accent">margins </span> from the outer module
-            * no classes
-            * no IDs
+            * modules are discrete, reusable components
+            * use <span class="accent">camelCase class names</span>
+            * variants (modified versions): <span class="accent">one hyphen</span>
+            * subcomponents (children): <span class="accent">two hyphens</span>
+            * set <span class="accent">margins </span> from outer context
           </textarea>
         </section>
 			  <section data-markdown>
@@ -411,9 +466,9 @@
             ## General Notes
 
             * The [official web page](http://smacss.com) is a good resource.
-              * <span class="accent">We won't follow the specific naming guides</span> in the book; they're outdated and vague.
-              * But [Sections 10-17](http://smacss.com/book/applicability) explain the motivation well.
-            * There are also decent videos of Snook presenting it.
+              * We aren't following the naming exactly as it appears there.
+              * [Sections 10, 15, and 17](http://smacss.com/book/applicability) explain the motivation especially well.
+            * There are also various videos of Snook presenting it.
             * Be careful with 3rd-party summaries. They often misunderstand the core idea &mdash; <span class="accent">extracting reusable patterns into named modules</span>.
           </textarea>
         </section>
@@ -424,7 +479,7 @@
             * <span class="accent">Base rules</span>: minimal, universal tag styles
             * <span class="accent">Layout rules</span>: major page structure
             * <span class="accent">Module rules</span>: everything else. reusable &amp; modular
-              * identify <span class="accent">subcomponents</span> &amp; <span class="accent">variants</span>
+              * includes <span class="accent">subcomponents</span> &amp; <span class="accent">variants</span>
           </textarea>
         </section>
 
