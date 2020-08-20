@@ -86,7 +86,7 @@
 
             Jonathan Snook developed SMACSS while at **Yahoo!** and later used it to clean up the CSS at **Shopify**.
 
-            BEM and OOCSS are popular alternatives. They're not too different.
+            BEM, OOCSS &amp; ITCSS are alternatives. All of them are similar.
           </textarea>
         </section>
 			  <section data-markdown>
@@ -103,9 +103,6 @@
             3. Modules
             4. State
             5. Theme
-
-            <small>Base &amp; layout rules each get their own file.
-              Modules will have a file each.</small>
 
             &gt; We'll focus on the first three.
           </textarea>
@@ -127,13 +124,11 @@
 
             * Base rules are only applied to <span class="accent">tags</span>. <small>Also pseudo-elements and the universal selector (*).</small>
 
-              * They're the <span class="accent">minimal defaults</span> for those tags.
+            * They're the <span class="accent">minimal defaults</span> for those tags.
 
-              * They're the only time we style tags directly.
+            * They are <span class="accent">near-universal</span> &mdash; almost every instance of the tag should need those properties.
 
-            * Almost every instance of the tag should need those properties. (They are <span class="accent">near-universal</span>.)
-
-              * *If you override something often, it probably shouldn't be a base rule.*
+              * *If you override something often, it probably shouldn't be in base.*
           </textarea>
         </section>
 			  <section data-markdown>
@@ -246,6 +241,7 @@
               * header
               * footer
               * whole-page columns
+            * Mostly just size and position.
             * <span class="accent">Layout rules are independent from the contents.</span>
 
             Let's use an `.l-` prefix: `.l-header`, `.l-main`.
@@ -288,10 +284,9 @@
         </section>
 			  <section data-markdown>
           <textarea data-template>
-            ## Module Rules
+            ## What are modules?
 
-            * most of the CSS rules will end up in modules
-            * modules are "discrete components"
+            * <span class="accent">discrete components</span>; make up most of the page
             * examples:
               * a form
               * a carousel
@@ -306,9 +301,9 @@
 
             * the goal is to extract <span class="accent">reusable UI patterns</span>
 
-              * (even when they aren't literally reused)
+              * (even when they aren't reused)
 
-            * for instance, if box styles are reused
+            * for instance:
 
               * `.box` is reusable
 
@@ -433,7 +428,7 @@
             ## Modules: PROTIPs
 
             * `.coolModule {}`, not `div.coolModule {}`.
-              <br><small>The element adds specificity and DOM coupling for no reason.</small>
+              <br><small>The element adds specificity and DOM coupling for no benefit.</small>
 
             * `.moduleC {}`, not `.moduleA .moduleB .moduleC {}`
               <br><small>Ditto. But sometimes `.moduleB .moduleC {}` is needed for layout.</small>
